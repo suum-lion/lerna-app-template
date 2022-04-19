@@ -6,6 +6,7 @@ const { createRequestHandler } = require("@remix-run/express");
 const { default: axios } = require("axios");
 const { default: jwtDecode } = require("jwt-decode");
 const QueryString = require("qs");
+const packageJson = require("./package.json");
 require("dotenv").config({ path: process.env.ENV_PATH });
 
 const BUILD_DIR = path.join(process.cwd(), "build");
@@ -110,7 +111,8 @@ app.all(
         mode: process.env.NODE_ENV
       })
 );
-const port = process.env.PORT || 3000;
+const port =
+  process.env[`${packageJson.name.toUpperCase().replace("-", "_")}_PORT`];
 
 app.listen(port, () => {
   console.log(`Express server listening on port ${port}`);
